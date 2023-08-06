@@ -1,3 +1,6 @@
+/* eslint-disable function-paren-newline */
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable comma-dangle */
 const User = require("../models/user");
 
 module.exports.getUsers = (req, res) => {
@@ -8,16 +11,32 @@ module.exports.getUsers = (req, res) => {
 module.exports.addUser = (req, res) => {
   const { name, about, avatar } = req.body;
   User.create({ name, about, avatar })
-    .then((user) => res.status(201).send(user))
-    .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
+    .then((user) => {
+      res.status(201).send(user);
+    })
+    .catch((err) => {
+      if (err.name === "ValidationError") {
+        res.status(400).send({
+          message: "Переданы некорректные данные при создании пользователя",
+        });
+      }
+      res.status(500).send({ message: "Произошла ошибка" });
+    });
 };
+
 module.exports.getUserById = (req, res) => {
   User.findById(req.params.userId)
     .then((updatedUser) => {
+      if (!updatedUser) {
+        res
+          .status(404)
+          .send({ message: "Пользователь с указанным id не найден" });
+        return;
+      }
       res.status(201).send(updatedUser);
     })
     .catch(() =>
-      res.status(404).send({ message: "Пользователь с указанным id не найден" })
+      res.status(500).send({ message: "На сервере произошла ошибка" })
     );
 };
 
@@ -29,7 +48,7 @@ module.exports.editUserData = (req, res) => {
       .then((updatedUser) => res.status(201).send(updatedUser))
       .catch((err) => {
         if (err.name === "ValidationError") {
-          res.status(400).send({ message: err.message });
+          res.status(400).send({ message: "Поле невалидно" });
         } else {
           res
             .status(404)
@@ -49,7 +68,7 @@ module.exports.editUserAvatar = (req, res) => {
       .then((updatedUser) => res.status(201).send(updatedUser))
       .catch((err) => {
         if (err.name === "ValidationError") {
-          res.status(400).send({ message: err.message });
+          res.status(400).send({ message: "Поле невалидно" });
         } else {
           res
             .status(404)

@@ -1,16 +1,15 @@
-[![Tests](../../actions/workflows/tests-13-sprint.yml/badge.svg)](../../actions/workflows/tests-13-sprint.yml) [![Tests](../../actions/workflows/tests-14-sprint.yml/badge.svg)](../../actions/workflows/tests-14-sprint.yml)
-# Проект Mesto фронтенд + бэкенд
+# Проект Mesto бэкенд
 
+## Описание
+
+Проект написан на Express и подключен к базе данных MongoDB. Для единообразия кода используется Eslint.
 
 ## Директории
 
 `/routes` — папка с файлами роутера  
-`/controllers` — папка с файлами контроллеров пользователя и карточки   
-`/models` — папка с файлами описания схем пользователя и карточки  
-  
-Остальные директории вспомогательные, создаются при необходимости разработчиком
+`/controllers` — папка с файлами контроллеров пользователя и карточки  
+`/models` — папка с файлами описания схем пользователя и карточки
 
-## Запуск проекта
+## Ссылка на репозиторий
 
-`npm run start` — запускает сервер   
-`npm run dev` — запускает сервер с hot-reload
+https://github.com/olgaivashova/express-mesto-gha.git

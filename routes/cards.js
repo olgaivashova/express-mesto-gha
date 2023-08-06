@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 const router = require("express").Router();
 const {
   addCard,
@@ -8,8 +9,8 @@ const {
 } = require("../controllers/cards");
 
 router.get("/", getCards);
-router.delete("/:cardId", deleteCard);
 router.post("/", addCard);
+router.delete("/:cardId", deleteCard);
 router.put("/:cardId/likes", putLike);
 router.delete("/:cardId/likes", deleteLike);
 

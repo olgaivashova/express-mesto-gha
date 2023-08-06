@@ -1,9 +1,11 @@
-// eslint-disable-next-line strict
+/* eslint-disable comma-dangle */
+const path = require("path");
 const express = require("express");
 const mongoose = require("mongoose");
-const path = require("path");
-const port = 3000;
+
+const { PORT = 3000 } = process.env;
 const bodyParser = require("body-parser");
+
 const app = express();
 const routerUsers = require("./routes/users");
 const routerCards = require("./routes/cards");
@@ -13,6 +15,7 @@ mongoose
     useNewUrlParser: true,
   })
   .then(() => {
+    // eslint-disable-next-line no-console
     console.log(123456);
   });
 
@@ -30,6 +33,7 @@ app.use((req, res, next) => {
 app.use("/users", routerUsers);
 app.use("/cards", routerCards);
 
-app.listen(port, () => {
-  console.log(`Ссылка на сервер ${port}`);
+app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
+  console.log(`Ссылка на сервер ${PORT}`);
 });
