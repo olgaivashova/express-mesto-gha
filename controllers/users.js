@@ -29,11 +29,11 @@ module.exports.getUserById = (req, res) => {
     .then((updatedUser) => {
       if (!updatedUser) {
         res
-          .status(404)
+          .status(400)
           .send({ message: "Пользователь с указанным id не найден" });
         return;
       }
-      res.status(201).send(updatedUser);
+      res.status(200).send(updatedUser);
     })
     .catch(() =>
       res.status(500).send({ message: "На сервере произошла ошибка" })
@@ -45,7 +45,7 @@ module.exports.editUserData = (req, res) => {
   const userId = req.user._id;
   if (userId) {
     User.findByIdAndUpdate(userId, { name, about }, { new: true })
-      .then((updatedUser) => res.status(201).send(updatedUser))
+      .then((updatedUser) => res.status(200).send(updatedUser))
       .catch((err) => {
         if (err.name === "ValidationError") {
           res.status(400).send({ message: "Поле невалидно" });
