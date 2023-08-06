@@ -25,26 +25,34 @@ module.exports.addUser = (req, res) => {
 };
 
 module.exports.getUserById = (req, res) => {
-  User.findById(req.params.userId)
-    .then((updatedUser) => {
-      if (!updatedUser) {
-        res
-          .status(400)
-          .send({ message: "Пользователь с указанным id не найден" });
-        return;
-      }
-      res.send(updatedUser);
-    })
-    .catch(() =>
-      res.status(500).send({ message: "На сервере произошла ошибка" })
-    );
+  if (req.params.cardId.length === 24) {
+    User.findById(req.params.userId)
+      .then((updatedUser) => {
+        if (!updatedUser) {
+          res
+            .status(404)
+            .send({ message: "Пользователь с указанным id не найден" });
+          return;
+        }
+        res.send(updatedUser);
+      })
+      .catch(() =>
+        res.status(500).send({ message: "На сервере произошла ошибка" })
+      );
+  } else {
+    res.status(400).send({ message: "Вы ввели некорректный id" });
+  }
 };
 
 module.exports.editUserData = (req, res) => {
   const { name, about } = req.body;
   const userId = req.user._id;
   if (userId) {
-    User.findByIdAndUpdate(userId, { name, about }, { new: true })
+    User.findByIdAndUpdate(
+      userId,
+      { name, about },
+      { new: true, runValidators: true }
+    )
       .then((updatedUser) => res.send(updatedUser))
       .catch((err) => {
         if (err.name === "ValidationError") {
@@ -64,11 +72,17 @@ module.exports.editUserAvatar = (req, res) => {
   const { avatar } = req.body;
   const userId = req.user._id;
   if (userId) {
-    User.findByIdAndUpdate(userId, { avatar }, { new: true })
+    User.findByIdAndUpdate(
+      userId,
+      { avatar },
+      { new: true, runValidators: true }
+    )
       .then((updatedUser) => res.send(updatedUser))
       .catch((err) => {
         if (err.name === "ValidationError") {
-          res.status(400).send({ message: "Поле невалидно" });
+          res.status(400).send({
+            message: " Переданы некорректные данные при обновлении аватара",
+          });
         } else {
           res
             .status(404)
