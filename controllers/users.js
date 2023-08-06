@@ -25,7 +25,7 @@ module.exports.addUser = (req, res) => {
 };
 
 module.exports.getUserById = (req, res) => {
-  if (req.params.cardId.length === 24) {
+  if (req.params.userId.length === 24) {
     User.findById(req.params.userId)
       .then((updatedUser) => {
         if (!updatedUser) {
