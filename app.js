@@ -3,7 +3,7 @@ const path = require("path");
 const express = require("express");
 const mongoose = require("mongoose");
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, DB_URL = "mongodb://127.0.0.1:27017/mydb" } = process.env;
 const bodyParser = require("body-parser");
 
 const app = express();
@@ -11,7 +11,7 @@ const routerUsers = require("./routes/users");
 const routerCards = require("./routes/cards");
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/mydb", {
+  .connect(DB_URL, {
     useNewUrlParser: true,
   })
   .then(() => {
