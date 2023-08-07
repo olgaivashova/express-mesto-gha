@@ -57,7 +57,7 @@ module.exports.editUserInfo = (req, res) => {
     .then((updatedUser) => res.send(updatedUser))
     .catch((err) => {
       if (err.name === "ValidationError") {
-        res.status(400).send({ message: err.messagej });
+        res.status(400).send({ message: err.message });
       } else if (err.name === "DocumentNotFoundError") {
         res
           .status(404)
