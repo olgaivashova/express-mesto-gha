@@ -19,7 +19,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Поле должно быть заполнено"],
       validate: {
-        validator: (v) => validator.isURL(v),
+        validator(v) {
+          return /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/.test(
+            v
+          );
+        },
         message: "Введите URL",
       },
     },

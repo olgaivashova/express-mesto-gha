@@ -13,7 +13,7 @@ module.exports.addUser = (req, res) => {
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
         res.status(400).send({
-          message: "Переданы некорректные данные при создании пользователя",
+          message: err.message,
         });
       }
       res.status(500).send({ message: "Произошла ошибка" });
@@ -57,7 +57,7 @@ module.exports.editUserInfo = (req, res) => {
     .then((updatedUser) => res.send(updatedUser))
     .catch((err) => {
       if (err.name === "ValidationError") {
-        res.status(400).send({ message: "Поле невалидно" });
+        res.status(400).send({ message: err.messagej });
       } else if (err.name === "DocumentNotFoundError") {
         res
           .status(404)
