@@ -30,7 +30,7 @@ module.exports.deleteCard = (req, res) => {
       res.send({ message: "Карточка удалена" });
     })
     .catch((err) => {
-      if (err.name === "ValidationError") {
+      if (err.name === "CastError") {
         res.status(400).send({ message: "Вы ввели некорректные данные" });
       } else if (err.name === "DocumentNotFoundError") {
         res.status(404).send({ message: "Карточка с указанным id не найдена" });
@@ -52,7 +52,7 @@ module.exports.putLike = (req, res) => {
       res.send(card);
     })
     .catch((err) => {
-      if (err.name === "ValidationError") {
+      if (err.name === "CastError") {
         res.status(400).send({ message: "Вы ввели некорректные данные" });
       } else if (err.name === "DocumentNotFoundError") {
         res.status(404).send({ message: "Карточка с указанным id не найдена" });
@@ -74,7 +74,7 @@ module.exports.deleteLike = (req, res) => {
       res.send(card);
     })
     .catch((err) => {
-      if (err.name === "ValidationError") {
+      if (err.name === "CastError") {
         res.status(400).send({ message: "Вы ввели некорректные данные" });
       } else if (err.name === "DocumentNotFoundError") {
         res.status(404).send({ message: "Карточка с указанным id не найдена" });
