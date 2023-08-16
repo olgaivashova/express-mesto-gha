@@ -1,6 +1,6 @@
 /* eslint-disable comma-dangle */
 const Card = require("../models/card");
-const { HTTP_STATUS_OK, HTTP_STATUS_CREATED } = require("http2").constants;
+const { HTTP_STATUS_CREATED } = require("http2").constants;
 const BadRequestError = require("../errors/badRequestError");
 const NotFoundError = require("../errors/notFoundError");
 const ForbiddenError = require("../errors/forbiddenError");

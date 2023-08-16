@@ -1,6 +1,11 @@
 /* eslint-disable comma-dangle */
 const router = require("express").Router();
-const { celebrate, Joi } = require("celebrate");
+const {
+  celebrateGetUserById,
+  celebrateEditUserInfo,
+  celebrateEditUserAvatar,
+} = require("../middlewares/joi");
+
 const {
   getUsers,
   getMe,
@@ -11,41 +16,8 @@ const {
 
 router.get("/", getUsers);
 router.get("/me", getMe);
-router.get(
-  "/:userId",
-  celebrate({
-    // валидируем параметры
-    params: Joi.object().keys({
-      userId: Joi.string().required().alphanum().length(24),
-    }),
-  }),
-  getUserById
-);
-router.patch(
-  "/me",
-  celebrate({
-    body: Joi.object().keys({
-      name: Joi.string().min(2).max(30),
-      about: Joi.string().min(2).max(30),
-    }),
-  }),
-  editUserInfo
-);
-
-router.patch(
-  "/me/avatar",
-  celebrate({
-    body: Joi.object().keys({
-      name: Joi.string().min(2).max(30),
-      about: Joi.string().min(2).max(30),
-      avatar: Joi.string()
-        .required()
-        .regex(
-          /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/
-        ),
-    }),
-  }),
-  editUserAvatar
-);
+router.get("/:userId", celebrateGetUserById, getUserById);
+router.patch("/me", celebrateEditUserInfo, editUserInfo);
+router.patch("/me/avatar", celebrateEditUserAvatar, editUserAvatar);
 
 module.exports = router;
