@@ -47,9 +47,6 @@ const userSchema = new mongoose.Schema(
       required: [true, "Поле должно быть заполнено"],
       minlength: 5,
       select: false,
-      get() {
-        return undefined;
-      },
     },
   },
   { versionKey: false }
