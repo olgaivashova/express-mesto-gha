@@ -28,7 +28,7 @@ module.exports.addCard = (req, res, next) => {
 module.exports.deleteCard = (req, res, next) => {
   Card.findById(req.params.cardId)
     .then((card) => {
-      if (!card) {
+      if (!card.owner.equals(req.user_id)) {
         throw new ForbiddenError("Карточка принадлежит другому пользователю");
       }
       Card.findByIdAndDelete(card);
