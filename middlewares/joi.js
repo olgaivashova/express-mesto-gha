@@ -17,6 +17,7 @@ module.exports.celebrateLogin = celebrate({
     password: Joi.string().required().min(5),
   }),
 });
+
 module.exports.celebrateGetUserById = celebrate({
   params: Joi.object().keys({
     userId: Joi.string().required().alphanum().length(24),
