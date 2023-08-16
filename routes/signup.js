@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { celebrate, Joi } = require("celebrate");
-const { addUser } = require("../controllers/users");
+const { createUser } = require("../controllers/users");
 
 const celebrateValidator = celebrate({
   body: Joi.object().keys({
@@ -16,6 +16,6 @@ const celebrateValidator = celebrate({
   }),
 });
 
-router.post("/", celebrateValidator, addUser);
+router.post("/", celebrateValidator, createUser);
 
 module.exports = router;

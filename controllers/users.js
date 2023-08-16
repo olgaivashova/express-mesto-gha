@@ -5,28 +5,12 @@ const { default: mongoose } = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-const { HTTP_STATUS_OK, HTTP_STATUS_CREATED } = require("http2").constants;
+const { HTTP_STATUS_CREATED } = require("http2").constants;
 const BadRequestError = require("../errors/badRequestError");
 const NotFoundError = require("../errors/notFoundError");
 const ConflictError = require("../errors/conflictError");
 
-module.exports.login = (req, res, next) => {
-  const { email, password } = req.body;
-  return User.findUserByCredentials(email, password)
-    .then((user) => {
-      // аутентификация успешна! пользователь в переменной user
-      const token = jwt.sign({ _id: user._id }, "some-secret-key", {
-        expiresIn: "7d",
-      });
-      // вернём токен
-      res.send({ token });
-    })
-    .catch((err) => {
-      next(err);
-    });
-};
-
-module.exports.addUser = (req, res, next) => {
+module.exports.createUser = (req, res, next) => {
   const { name, about, avatar, email, password } = req.body;
   // хешируем пароль
   bcrypt
@@ -53,6 +37,28 @@ module.exports.addUser = (req, res, next) => {
       }
       next(err);
     });
+};
+
+module.exports.login = (req, res, next) => {
+  const { email, password } = req.body;
+  return User.findUserByCredentials(email, password)
+    .then((user) => {
+      // аутентификация успешна! пользователь в переменной user
+      const token = jwt.sign({ _id: user._id }, "some-secret-key", {
+        expiresIn: "7d",
+      });
+      // вернём токен
+      res.send({ token });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+module.exports.getMe = (req, res, next) => {
+  User.findById(req.user._id)
+    .then((user) => res.send(user))
+    .catch(next);
 };
 
 module.exports.getUsers = (req, res, next) => {
@@ -114,9 +120,4 @@ module.exports.editUserAvatar = (req, res, next) => {
         next(err);
       }
     });
-};
-module.exports.getMe = (req, res, next) => {
-  User.findById(req.user._id)
-    .then((user) => res.send(user))
-    .catch(next);
 };
