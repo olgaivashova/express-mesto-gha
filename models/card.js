@@ -1,5 +1,6 @@
 /* eslint-disable comma-dangle */
 const mongoose = require("mongoose");
+const validator = require("validator");
 
 const cardSchema = new mongoose.Schema(
   {
@@ -13,10 +14,8 @@ const cardSchema = new mongoose.Schema(
       type: String,
       required: [true, "Поле должно быть заполнено"],
       validate: {
-        validator(v) {
-          return /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/.test(
-            v
-          );
+        validator: function checkUrl(url) {
+          return url && validator.isURL(url);
         },
         message: "Введите URL",
       },
