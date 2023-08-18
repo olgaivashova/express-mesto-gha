@@ -33,9 +33,17 @@ app.use(auth);
 app.use("/users", routerUsers);
 app.use("/cards", routerCards);
 app.use(errors());
-app.use("*", (req, res, next) => {
-  next(new NotFoundError("Страница не найдена"));
+// app.use("*", (req, res, next) => {
+// next(new NotFoundError("Страница не найдена"));
+// });
+app.use((err, req, res, next) => {
+  if (err instanceof mongoose.Error.NotFound) {
+    next(new NotFoundError("Страница не найдена"));
+  } else {
+    next(err);
+  }
 });
+
 app.use((err, req, res, next) => {
   // если у ошибки нет статуса, выставляем 500
   const { statusCode = 500, message } = err;
