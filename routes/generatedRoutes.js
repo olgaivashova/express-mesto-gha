@@ -1,4 +1,5 @@
-const router = require("express").Router();
+/* eslint-disable spaced-comment */
+/*const router = require("express").Router();
 const auth = require("../middlewares/auth");
 const routerUsers = require("./users");
 const routerCards = require("./cards");
@@ -15,4 +16,4 @@ router.use("*", (req, res, next) => {
   next(new NotFoundError("Страница не найдена"));
 });
 
-module.exports = router;
+module.exports = router; */

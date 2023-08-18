@@ -9,13 +9,13 @@ const bodyParser = require("body-parser");
 const app = express();
 const helmet = require("helmet");
 const { errors } = require("celebrate");
-// const routerUsers = require("./routes/users");
-// const routerCards = require("./routes/cards");
-// const routerSignup = require("./routes/signup");
-// const routerLogin = require("./routes/login");
-// const auth = require("./middlewares/auth");
-// const { NotFoundError } = require("./errors/notFoundError");
-const allRouter = require("./routes/generatedRoutes");
+const routerUsers = require("./routes/users");
+const routerCards = require("./routes/cards");
+const routerSignup = require("./routes/signup");
+const routerLogin = require("./routes/login");
+const auth = require("./middlewares/auth");
+const NotFoundError = require("./errors/notFoundError");
+//const allRouter = require("./routes/generatedRoutes");
 
 mongoose
   .connect(DB_URL, {
@@ -29,18 +29,17 @@ mongoose
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
-/*app.use("/signup", routerSignup);
+app.use("/signup", routerSignup);
 app.use("/signin", routerLogin);
 app.use(auth);
 app.use("/users", routerUsers);
 app.use("/cards", routerCards);
-
+app.use(errors());
 app.use("*", (req, res, next) => {
   next(new NotFoundError("Страница не найдена"));
-});*/
-app.use(allRouter);
-app.use(errors());
-app.use((err, req, res, next) => {
+});
+
+/*app.use((err, req, res, next) => {
   // если у ошибки нет статуса, выставляем 500
   const { statusCode = 500, message } = err;
 
@@ -49,7 +48,7 @@ app.use((err, req, res, next) => {
     message: statusCode === 500 ? "На сервере произошла ошибка" : message,
   });
   next();
-});
+});*/
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
