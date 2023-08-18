@@ -1,6 +1,5 @@
 /* eslint-disable comma-dangle */
 const mongoose = require("mongoose");
-//const validate = require("mongoose-validator");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const UnauthorizedError = require("../errors/unauthorizedError");
@@ -45,14 +44,16 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: [true, "Поле должно быть заполнено"],
-      minlength: 5,
       select: false,
     },
   },
   { versionKey: false }
 );
 
-userSchema.statics.findUserByCredentials = function (email, password) {
+userSchema.statics.findUserByCredentials = function findUserByCredentials(
+  email,
+  password
+) {
   // попытаемся найти пользователя по почте
   return this.findOne({ email })
     .select("+password")

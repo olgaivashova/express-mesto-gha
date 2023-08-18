@@ -1,5 +1,6 @@
 /* eslint-disable comma-dangle */
 const Card = require("../models/card");
+// eslint-disable-next-line import/order
 const { HTTP_STATUS_CREATED } = require("http2").constants;
 const BadRequestError = require("../errors/badRequestError");
 const NotFoundError = require("../errors/notFoundError");
@@ -20,8 +21,9 @@ module.exports.addCard = (req, res, next) => {
     .catch((err) => {
       if (err.name === "ValidationError") {
         next(new BadRequestError(err.message));
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 
@@ -38,7 +40,7 @@ module.exports.deleteCard = (req, res, next) => {
           .catch((err) => next(err));
       }
     })
-    .catch((err) => next(err));
+    .catch(next);
 };
 
 module.exports.putLike = (req, res, next) => {

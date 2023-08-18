@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable function-paren-newline */
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable comma-dangle */
@@ -5,6 +6,7 @@ const { default: mongoose } = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+// eslint-disable-next-line import/order
 const { HTTP_STATUS_CREATED } = require("http2").constants;
 const BadRequestError = require("../errors/badRequestError");
 const NotFoundError = require("../errors/notFoundError");
@@ -25,7 +27,8 @@ module.exports.createUser = (req, res, next) => {
       })
     )
     .then((user) => {
-      //перечисляем все свойства кроме password, чтобы не показывать его клиенту при создании, т.к поле password: select в схеме user работает с методами find...
+      // перечисляем все свойства кроме password, чтобы не показывать его клиенту при создании,
+      //  т.к поле password: select в схеме user работает с методами find...
       res.status(HTTP_STATUS_CREATED).send({
         name: user.name,
         about: user.about,

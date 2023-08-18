@@ -21,6 +21,7 @@ module.exports = {
   },
   rules: {
     quotes: ["error", "double"],
-    no-underscore-dangle: "error"
+    "linebreak-style": ["error", "unix"],
+    "no-underscore-dangle": ["error", { allow: ["_id"] }],
   },
 };
